@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_salud/services/auth_service.dart';
+import 'package:provider/provider.dart';
 
 import 'routes/routes.dart';
 
@@ -9,11 +11,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'App Salud',
-      initialRoute: 'login',
-      routes: appRoutes,
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => AuthService())],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'App Salud',
+        initialRoute: 'loading',
+        routes: appRoutes,
+      ),
     );
   }
 }

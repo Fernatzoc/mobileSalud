@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_salud/services/auth_service.dart';
+import 'package:provider/provider.dart';
+import '../helpers/show_alert.dart';
 import '../widgets/index.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -61,6 +64,8 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+
     return Container(
       margin: const EdgeInsets.only(top: 40),
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -82,10 +87,23 @@ class __FormState extends State<_Form> {
           CustomButton(
             color: Colors.blue,
             text: 'Ingresar',
-            onPressed: () {
-              print(emailCotroller.text);
-              print(passwordController.text);
-            },
+            onPressed: authService.authenticating
+                ? null
+                : () async {
+                    FocusScope.of(context).unfocus();
+
+                    final loginStatus = await authService.login(
+                        emailCotroller.text.trim(),
+                        passwordController.text.trim());
+
+                    if (loginStatus) {
+                      if (!mounted) return;
+                      Navigator.pushReplacementNamed(context, 'home');
+                    } else {
+                      if (!mounted) return;
+                      showAlert(context, 'asd', 'asdd');
+                    }
+                  },
           )
         ],
       ),
@@ -98,10 +116,8 @@ class _Labels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [Text('Info')],
-      ),
+    return Column(
+      children: [Text('Info')],
     );
   }
 }
