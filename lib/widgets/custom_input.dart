@@ -23,7 +23,7 @@ class CustomInput extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(5),
           boxShadow: <BoxShadow>[
             BoxShadow(
                 color: Colors.black.withOpacity(0.05),
@@ -36,10 +36,11 @@ class CustomInput extends StatelessWidget {
           keyboardType: keyboadType,
           obscureText: isPassword,
           decoration: InputDecoration(
-              prefixIcon: Icon(icon),
-              focusedBorder: InputBorder.none,
-              border: InputBorder.none,
-              hintText: placeHolder)),
+            prefixIcon: Icon(icon),
+            focusedBorder: InputBorder.none,
+            border: InputBorder.none,
+            hintText: placeHolder,
+          )),
     );
   }
 }

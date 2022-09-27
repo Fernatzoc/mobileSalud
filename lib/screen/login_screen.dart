@@ -10,7 +10,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF2F2F2),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -85,7 +84,7 @@ class __FormState extends State<_Form> {
             isPassword: true,
           ),
           CustomButton(
-            color: Colors.blue,
+            color: Theme.of(context).primaryColor,
             text: 'Ingresar',
             onPressed: authService.authenticating
                 ? null

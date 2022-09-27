@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_salud/services/auth_service.dart';
 import 'package:provider/provider.dart';
 
 import 'routes/routes.dart';
+import 'services/auth_service.dart';
+import 'theme.dart';
 
 void main() => runApp(const MyApp());
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         title: 'App Salud',
         initialRoute: 'loading',
         routes: appRoutes,
+        theme: theme,
       ),
     );
   }
