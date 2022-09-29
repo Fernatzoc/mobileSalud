@@ -4,17 +4,21 @@ class CustomInput extends StatelessWidget {
   final IconData icon;
   final String placeHolder;
   final TextEditingController textcontroller;
+  final String? Function(String?)? validator;
+  final Widget? suffixIcon;
   final TextInputType keyboadType;
   final bool isPassword;
 
-  const CustomInput(
-      {Key? key,
-      required this.icon,
-      required this.placeHolder,
-      required this.textcontroller,
-      this.keyboadType = TextInputType.text,
-      this.isPassword = false})
-      : super(key: key);
+  const CustomInput({
+    Key? key,
+    required this.icon,
+    required this.placeHolder,
+    required this.textcontroller,
+    required this.validator,
+    this.keyboadType = TextInputType.text,
+    this.isPassword = false,
+    this.suffixIcon,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +40,12 @@ class CustomInput extends StatelessWidget {
           keyboardType: keyboadType,
           obscureText: isPassword,
           decoration: InputDecoration(
-            prefixIcon: Icon(icon),
-            focusedBorder: InputBorder.none,
-            border: InputBorder.none,
-            hintText: placeHolder,
-          ),
-          validator: (value) {
-            String pattern =
-                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-            RegExp regExp = RegExp(pattern);
-
-            return regExp.hasMatch(value ?? '')
-                ? null
-                : 'El correo no es valido';
-          }),
+              prefixIcon: Icon(icon),
+              focusedBorder: InputBorder.none,
+              border: InputBorder.none,
+              hintText: placeHolder,
+              suffixIcon: suffixIcon),
+          validator: validator),
     );
   }
 }

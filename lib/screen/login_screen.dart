@@ -5,6 +5,7 @@ import '../helpers/show_alert.dart';
 import '../providers/index.dart';
 import '../services/auth_service.dart';
 import '../widgets/index.dart';
+import '../global/validations.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -81,38 +82,57 @@ class __FormState extends State<_Form> {
               placeHolder: 'Correo',
               keyboadType: TextInputType.emailAddress,
               textcontroller: emailCotroller,
+              validator: (value) {
+                String pattern = Validations.patternEmail;
+                RegExp regExp = RegExp(pattern);
+
+                return regExp.hasMatch(value ?? '')
+                    ? null
+                    : 'El correo no es valido';
+              },
             ),
             CustomInput(
               icon: Icons.lock_outline,
               placeHolder: 'Contraseña',
               keyboadType: TextInputType.emailAddress,
               textcontroller: passwordController,
-              isPassword: true,
+              isPassword: loginForm.isObscure,
+              suffixIcon: IconButton(
+                  icon: Icon(loginForm.isObscure
+                      ? Icons.visibility
+                      : Icons.visibility_off),
+                  onPressed: () {
+                    loginForm.isObscure = !loginForm.isObscure;
+                  }),
+              validator: (value) {
+                return (value?.trim().isNotEmpty == true)
+                    ? null
+                    : 'La contraseña es requedida';
+              },
             ),
             CustomButton(
                 color: Theme.of(context).primaryColor,
                 text: 'Ingresar',
-                onPressed: (() {
-                  if (!loginForm.isValidForm()) return;
+                onPressed: authService.authenticating
+                    ? null
+                    : () async {
+                        FocusScope.of(context).unfocus();
 
-                  authService.authenticating
-                      ? null
-                      : () async {
-                          FocusScope.of(context).unfocus();
+                        if (!loginForm.isValidForm()) return;
 
-                          final loginStatus = await authService.login(
-                              emailCotroller.text.trim(),
-                              passwordController.text.trim());
+                        final loginStatus = await authService.login(
+                            emailCotroller.text.trim(),
+                            passwordController.text.trim());
 
-                          if (loginStatus) {
-                            if (!mounted) return;
-                            Navigator.pushReplacementNamed(context, 'home');
-                          } else {
-                            if (!mounted) return;
-                            showAlert(context, 'asd', 'asdd');
-                          }
-                        };
-                }))
+                        if (loginStatus) {
+                          if (!mounted) return;
+                          Navigator.pushReplacementNamed(context, 'home');
+                        } else {
+                          if (!mounted) return;
+                          showAlert(
+                              context, 'Error', 'Compruebe sus credenciales');
+                        }
+                      })
           ],
         ),
       ),
