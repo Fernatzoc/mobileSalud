@@ -30,7 +30,7 @@ class CustomInput extends StatelessWidget {
                 offset: const Offset(0, 5),
                 blurRadius: 5)
           ]),
-      child: TextField(
+      child: TextFormField(
           controller: textcontroller,
           autocorrect: false,
           keyboardType: keyboadType,
@@ -40,7 +40,16 @@ class CustomInput extends StatelessWidget {
             focusedBorder: InputBorder.none,
             border: InputBorder.none,
             hintText: placeHolder,
-          )),
+          ),
+          validator: (value) {
+            String pattern =
+                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+            RegExp regExp = RegExp(pattern);
+
+            return regExp.hasMatch(value ?? '')
+                ? null
+                : 'El correo no es valido';
+          }),
     );
   }
 }

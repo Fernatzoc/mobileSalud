@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'providers/index.dart';
 import 'routes/routes.dart';
 import 'services/auth_service.dart';
 import 'theme.dart';
@@ -13,7 +14,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AuthService())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => FormLoginProvider()),
+        ChangeNotifierProvider(create: (_) => AuthService()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'App Salud',

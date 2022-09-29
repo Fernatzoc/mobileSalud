@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_salud/services/auth_service.dart';
 import 'package:provider/provider.dart';
+
 import '../helpers/show_alert.dart';
+import '../providers/index.dart';
+import '../services/auth_service.dart';
 import '../widgets/index.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -63,48 +65,56 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final loginForm = Provider.of<FormLoginProvider>(context);
     final authService = Provider.of<AuthService>(context);
 
     return Container(
       margin: const EdgeInsets.only(top: 40),
       padding: const EdgeInsets.symmetric(horizontal: 50),
-      child: Column(
-        children: [
-          CustomInput(
-            icon: Icons.mail_outline,
-            placeHolder: 'Correo',
-            keyboadType: TextInputType.emailAddress,
-            textcontroller: emailCotroller,
-          ),
-          CustomInput(
-            icon: Icons.lock_outline,
-            placeHolder: 'Contraseña',
-            keyboadType: TextInputType.emailAddress,
-            textcontroller: passwordController,
-            isPassword: true,
-          ),
-          CustomButton(
-            color: Theme.of(context).primaryColor,
-            text: 'Ingresar',
-            onPressed: authService.authenticating
-                ? null
-                : () async {
-                    FocusScope.of(context).unfocus();
+      child: Form(
+        key: loginForm.formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+          children: [
+            CustomInput(
+              icon: Icons.mail_outline,
+              placeHolder: 'Correo',
+              keyboadType: TextInputType.emailAddress,
+              textcontroller: emailCotroller,
+            ),
+            CustomInput(
+              icon: Icons.lock_outline,
+              placeHolder: 'Contraseña',
+              keyboadType: TextInputType.emailAddress,
+              textcontroller: passwordController,
+              isPassword: true,
+            ),
+            CustomButton(
+                color: Theme.of(context).primaryColor,
+                text: 'Ingresar',
+                onPressed: (() {
+                  if (!loginForm.isValidForm()) return;
 
-                    final loginStatus = await authService.login(
-                        emailCotroller.text.trim(),
-                        passwordController.text.trim());
+                  authService.authenticating
+                      ? null
+                      : () async {
+                          FocusScope.of(context).unfocus();
 
-                    if (loginStatus) {
-                      if (!mounted) return;
-                      Navigator.pushReplacementNamed(context, 'home');
-                    } else {
-                      if (!mounted) return;
-                      showAlert(context, 'asd', 'asdd');
-                    }
-                  },
-          )
-        ],
+                          final loginStatus = await authService.login(
+                              emailCotroller.text.trim(),
+                              passwordController.text.trim());
+
+                          if (loginStatus) {
+                            if (!mounted) return;
+                            Navigator.pushReplacementNamed(context, 'home');
+                          } else {
+                            if (!mounted) return;
+                            showAlert(context, 'asd', 'asdd');
+                          }
+                        };
+                }))
+          ],
+        ),
       ),
     );
   }
