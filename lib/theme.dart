@@ -6,6 +6,8 @@ final theme = ThemeData.light().copyWith(
     colorScheme: ThemeData().colorScheme.copyWith(
           primary: const Color(0xff6A7AFA),
         ),
+    floatingActionButtonTheme:
+        const FloatingActionButtonThemeData(backgroundColor: Color(0xff6A7AFA)),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xff267ebd),
+      backgroundColor: Color(0xff6A7AFA),
     ));

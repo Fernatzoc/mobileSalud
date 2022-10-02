@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../helpers/show_alert.dart';
-import '../providers/index.dart';
-import '../services/auth_service.dart';
+import '../providers/auth_service.dart';
 import '../widgets/index.dart';
 import '../global/validations.dart';
 
@@ -12,9 +11,9 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.9,
@@ -61,19 +60,15 @@ class _Form extends StatefulWidget {
 }
 
 class __FormState extends State<_Form> {
-  final emailCotroller = TextEditingController();
-  final passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    final loginForm = Provider.of<FormLoginProvider>(context);
     final authService = Provider.of<AuthService>(context);
 
     return Container(
       margin: const EdgeInsets.only(top: 40),
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Form(
-        key: loginForm.formKey,
+        key: authService.formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           children: [
@@ -81,7 +76,7 @@ class __FormState extends State<_Form> {
               icon: Icons.mail_outline,
               placeHolder: 'Correo',
               keyboadType: TextInputType.emailAddress,
-              textcontroller: emailCotroller,
+              onChanged: (value) => authService.email = value!,
               validator: (value) {
                 String pattern = Validations.patternEmail;
                 RegExp regExp = RegExp(pattern);
@@ -95,15 +90,15 @@ class __FormState extends State<_Form> {
               icon: Icons.lock_outline,
               placeHolder: 'Contraseña',
               keyboadType: TextInputType.emailAddress,
-              textcontroller: passwordController,
-              isPassword: loginForm.isObscure,
+              isPassword: authService.isObscure,
               suffixIcon: IconButton(
-                  icon: Icon(loginForm.isObscure
+                  icon: Icon(authService.isObscure
                       ? Icons.visibility
                       : Icons.visibility_off),
                   onPressed: () {
-                    loginForm.isObscure = !loginForm.isObscure;
+                    authService.isObscure = !authService.isObscure;
                   }),
+              onChanged: (value) => authService.password = value!,
               validator: (value) {
                 return (value?.trim().isNotEmpty == true)
                     ? null
@@ -118,11 +113,11 @@ class __FormState extends State<_Form> {
                     : () async {
                         FocusScope.of(context).unfocus();
 
-                        if (!loginForm.isValidForm()) return;
+                        if (!authService.isValidForm()) return;
 
                         final loginStatus = await authService.login(
-                            emailCotroller.text.trim(),
-                            passwordController.text.trim());
+                            authService.email.trim(),
+                            authService.password.trim());
 
                         if (loginStatus) {
                           if (!mounted) return;

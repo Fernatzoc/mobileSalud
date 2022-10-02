@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomInput extends StatelessWidget {
   final IconData icon;
   final String placeHolder;
-  final TextEditingController textcontroller;
+  final String? Function(String?)? onChanged;
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
   final TextInputType keyboadType;
@@ -13,7 +13,7 @@ class CustomInput extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.placeHolder,
-    required this.textcontroller,
+    required this.onChanged,
     required this.validator,
     this.keyboadType = TextInputType.text,
     this.isPassword = false,
@@ -35,7 +35,6 @@ class CustomInput extends StatelessWidget {
                 blurRadius: 5)
           ]),
       child: TextFormField(
-          controller: textcontroller,
           autocorrect: false,
           keyboardType: keyboadType,
           obscureText: isPassword,
@@ -45,6 +44,7 @@ class CustomInput extends StatelessWidget {
               border: InputBorder.none,
               hintText: placeHolder,
               suffixIcon: suffixIcon),
+          onChanged: onChanged,
           validator: validator),
     );
   }

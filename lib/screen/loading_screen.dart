@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_salud/screen/screens.dart';
 import 'package:provider/provider.dart';
 
-import '../services/auth_service.dart';
+import '../providers/auth_service.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -19,7 +19,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         future: checkLoginState(context),
         builder: (context, snapshot) {
           return const Center(
-            child: Text('Loading'),
+            child: CircularProgressIndicator(),
           );
         },
       ),

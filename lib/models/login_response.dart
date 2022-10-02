@@ -14,12 +14,12 @@ class LoginResponse {
   LoginResponse({
     this.status,
     this.user,
-    required this.token,
+    this.token,
   });
 
   String? status;
   User? user;
-  String token;
+  String? token;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
         status: json["status"],

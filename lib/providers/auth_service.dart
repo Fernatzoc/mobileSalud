@@ -7,6 +7,25 @@ import '../global/environment.dart';
 import '../models/index.dart';
 
 class AuthService with ChangeNotifier {
+  //Validation
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  String email = '';
+  String password = '';
+  bool _isObscure = true;
+
+  bool isValidForm() {
+    return formKey.currentState?.validate() ?? false;
+  }
+
+  bool get isObscure => _isObscure;
+  set isObscure(bool value) {
+    _isObscure = value;
+    notifyListeners();
+  }
+
+  // Auth Service
+
   late User user;
   bool _authenticating = false;
 
@@ -45,7 +64,7 @@ class AuthService with ChangeNotifier {
       final loginResponse = loginResponseFromJson(resp.body);
       user = loginResponse.user!;
 
-      await _saveToken(loginResponse.token);
+      await _saveToken(loginResponse.token!);
       return true;
     } else {
       return false;
@@ -65,7 +84,7 @@ class AuthService with ChangeNotifier {
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
       user = loginResponse.user!;
-      await _saveToken(loginResponse.token);
+      await _saveToken(loginResponse.token!);
       return true;
     } else {
       logout();
