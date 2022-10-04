@@ -45,9 +45,16 @@ class AuthService with ChangeNotifier {
     return token;
   }
 
+  static Future<String?> getIdUser() async {
+    const storage = FlutterSecureStorage();
+    final token = await storage.read(key: 'idUser');
+    return token;
+  }
+
   static Future<void> deleteToken() async {
     const storage = FlutterSecureStorage();
     await storage.delete(key: 'token');
+    await storage.delete(key: 'idUser');
   }
 
   Future<bool> login(String email, String password) async {
@@ -64,7 +71,8 @@ class AuthService with ChangeNotifier {
       final loginResponse = loginResponseFromJson(resp.body);
       user = loginResponse.user!;
 
-      await _saveToken(loginResponse.token!);
+      await _saveToken(
+          loginResponse.token!, loginResponse.user!.id!.toString());
       return true;
     } else {
       return false;
@@ -84,7 +92,8 @@ class AuthService with ChangeNotifier {
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
       user = loginResponse.user!;
-      await _saveToken(loginResponse.token!);
+      await _saveToken(
+          loginResponse.token!, loginResponse.user!.id!.toString());
       return true;
     } else {
       logout();
@@ -92,11 +101,13 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  Future _saveToken(String token) async {
+  Future _saveToken(String token, String idUser) async {
+    await _storage.write(key: 'idUser', value: idUser);
     return await _storage.write(key: 'token', value: token);
   }
 
   Future logout() async {
+    await _storage.delete(key: 'idUser');
     await _storage.delete(key: 'token');
   }
 }

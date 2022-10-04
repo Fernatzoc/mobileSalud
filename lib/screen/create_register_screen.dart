@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-import '../global/validations.dart';
+import '../helpers/show_alert.dart';
 import '../providers/index.dart';
 import '../widgets/index.dart';
 
@@ -27,9 +28,14 @@ class CreateRegisterScreen extends StatelessWidget {
   }
 }
 
-class _FormPregnant extends StatelessWidget {
+class _FormPregnant extends StatefulWidget {
   const _FormPregnant({Key? key}) : super(key: key);
 
+  @override
+  State<_FormPregnant> createState() => _FormPregnantState();
+}
+
+class _FormPregnantState extends State<_FormPregnant> {
   @override
   Widget build(BuildContext context) {
     final pregnancyService = Provider.of<PregnancyService>(context);
@@ -58,7 +64,7 @@ class _FormPregnant extends StatelessWidget {
                 placeHolder: 'Apellidos',
                 labelText: const Text('Apellidos'),
                 keyboadType: TextInputType.name,
-                onChanged: (value) => pregnancyService.lastnames = value!,
+                onChanged: (value) => pregnancyService.lastNames = value!,
                 validator: (value) {
                   return (value?.trim().isNotEmpty == true)
                       ? null
@@ -80,7 +86,7 @@ class _FormPregnant extends StatelessWidget {
                 placeHolder: 'Dirección',
                 labelText: const Text('Dirección'),
                 keyboadType: TextInputType.text,
-                onChanged: (value) => pregnancyService.addres = value!,
+                onChanged: (value) => pregnancyService.address = value!,
                 validator: (value) {
                   return (value?.trim().isNotEmpty == true)
                       ? null
@@ -183,18 +189,39 @@ class _FormPregnant extends StatelessWidget {
             CustomButton(
                 color: Theme.of(context).primaryColor,
                 text: 'Guardar',
-                onPressed: (() {
-                  FocusScope.of(context).unfocus();
-                  if (!pregnancyService.isValidForm()) return;
-                  print(pregnancyService.names);
-                  print(pregnancyService.lastnames);
-                  print(pregnancyService.cui);
-                  print(pregnancyService.addres);
-                  print(pregnancyService.dateOfBirth);
-                  print(pregnancyService.lastRule);
-                  print(pregnancyService.weight);
-                  print(pregnancyService.height);
-                }))
+                onPressed: pregnancyService.creatingPregnant
+                    ? null
+                    : () async {
+                        FocusScope.of(context).unfocus();
+                        if (!pregnancyService.isValidForm()) return;
+
+                        final pregnantCreateStatus =
+                            await pregnancyService.createPregnant(
+                                pregnancyService.names.trim(),
+                                pregnancyService.lastNames.trim(),
+                                pregnancyService.cui.trim(),
+                                pregnancyService.address.trim(),
+                                pregnancyService.dateOfBirth.trim(),
+                                pregnancyService.lastRule.trim(),
+                                pregnancyService.weight.trim(),
+                                pregnancyService.height.trim());
+
+                        if (pregnantCreateStatus) {
+                          if (!mounted) return;
+                          Fluttertoast.showToast(
+                              msg: "Registro Creado Correctamente",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: const Color(0xff6A7AFA),
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                          Navigator.pop(context);
+                        } else {
+                          if (!mounted) return;
+                          showAlert(context, 'Error', 'Compruebe sus datos');
+                        }
+                      })
           ],
         ),
       ),
