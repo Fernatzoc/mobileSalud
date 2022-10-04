@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'providers/user_service.dart';
+import 'providers/index.dart';
 import 'routes/routes.dart';
-import 'providers/auth_service.dart';
 import 'theme.dart';
 
 void main() => runApp(const MyApp());
@@ -17,6 +16,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => UserService()),
+        ChangeNotifierProvider(create: (_) => PregnancyService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

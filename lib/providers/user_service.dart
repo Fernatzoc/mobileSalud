@@ -8,6 +8,12 @@ import '../models/index.dart';
 import 'auth_service.dart';
 
 class UserService with ChangeNotifier {
+  List<User> users = [];
+
+  UserService() {
+    getUsers(1);
+  }
+
   //Validation
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String name = '';
@@ -64,5 +70,39 @@ class UserService with ChangeNotifier {
     } else {
       return false;
     }
+  }
+
+  // getUsers(int pageNumber) async {
+  //   final token = await AuthService.getToken();
+  //   final resp = await http.get(
+  //       Uri.parse('${Environment.apiUrl}/users/all?page=$pageNumber'),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'Bearer $token'
+  //       });
+
+  //   if (resp.statusCode == 200) {
+  //     final usersResponse = usersResponseFromJson(resp.body);
+  //     users.addAll(usersResponse.allUsers!.data);
+  //     notifyListeners();
+  //     return usersResponse;
+  //   } else {
+  //     throw Exception("Failed to load data");
+  //   }
+  // }
+
+  getUsers(int pageNumber) async {
+    final token = await AuthService.getToken();
+    final resp = await http.get(
+        Uri.parse('${Environment.apiUrl}/users/all?page=$pageNumber'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        });
+
+    final usersResponse = usersResponseFromJson(resp.body);
+    users.addAll(usersResponse.allUsers!.data);
+    print('llamada');
+    notifyListeners();
   }
 }

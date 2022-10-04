@@ -9,4 +9,5 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'users': (_) => const UsersScreen(),
   'pregnancy': (_) => const PregnacyScreen(),
   'createUser': (_) => const CreateUserScreen(),
+  'createRegister': (_) => const CreateRegisterScreen(),
 };

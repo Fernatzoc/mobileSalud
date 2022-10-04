@@ -54,6 +54,7 @@ class _FormState extends State<_Form> {
             CustomInput(
               icon: Icons.person_outline,
               placeHolder: 'Nombre',
+              labelText: const Text('Nombre'),
               keyboadType: TextInputType.name,
               onChanged: (value) => userService.name = value!,
               validator: (value) {
@@ -65,6 +66,7 @@ class _FormState extends State<_Form> {
             CustomInput(
               icon: Icons.mail_outline,
               placeHolder: 'Correo',
+              labelText: const Text('Correo'),
               keyboadType: TextInputType.emailAddress,
               onChanged: (value) => userService.email = value!,
               validator: (value) {
@@ -104,6 +106,7 @@ class _FormState extends State<_Form> {
                     prefixIcon: Icon(Icons.admin_panel_settings_outlined),
                     focusedBorder: InputBorder.none,
                     border: InputBorder.none,
+                    label: Text('Rol'),
                     hintText: 'Rol'),
                 validator: (value) {
                   return (value?.trim().isNotEmpty == true)
@@ -116,6 +119,7 @@ class _FormState extends State<_Form> {
             CustomInput(
               icon: Icons.lock_outline,
               placeHolder: 'Contraseña',
+              labelText: const Text('Contraseña'),
               keyboadType: TextInputType.emailAddress,
               isPassword: userService.isObscure,
               suffixIcon: IconButton(

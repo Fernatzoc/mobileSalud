@@ -42,7 +42,7 @@ class PregnacyScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xff6A7AFA),
         child: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(context, 'createRegister'),
       ),
     );
   }

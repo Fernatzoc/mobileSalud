@@ -75,6 +75,7 @@ class __FormState extends State<_Form> {
             CustomInput(
               icon: Icons.mail_outline,
               placeHolder: 'Correo',
+              labelText: const Text('Correo'),
               keyboadType: TextInputType.emailAddress,
               onChanged: (value) => authService.email = value!,
               validator: (value) {
@@ -91,6 +92,7 @@ class __FormState extends State<_Form> {
               placeHolder: 'Contraseña',
               keyboadType: TextInputType.emailAddress,
               isPassword: authService.isObscure,
+              labelText: const Text('Contraseña'),
               suffixIcon: IconButton(
                   icon: Icon(authService.isObscure
                       ? Icons.visibility

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CustomInput extends StatelessWidget {
   final IconData icon;
   final String placeHolder;
+  final Widget labelText;
   final String? Function(String?)? onChanged;
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
@@ -18,6 +19,7 @@ class CustomInput extends StatelessWidget {
     this.keyboadType = TextInputType.text,
     this.isPassword = false,
     this.suffixIcon,
+    required this.labelText,
   }) : super(key: key);
 
   @override
@@ -39,6 +41,7 @@ class CustomInput extends StatelessWidget {
           keyboardType: keyboadType,
           obscureText: isPassword,
           decoration: InputDecoration(
+              label: labelText,
               prefixIcon: Icon(icon),
               focusedBorder: InputBorder.none,
               border: InputBorder.none,
