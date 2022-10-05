@@ -8,6 +8,33 @@ import '../models/index.dart';
 import './index.dart';
 
 class PregnancyService with ChangeNotifier {
+  List<Pregnant> pregnantsList = [];
+
+  PregnancyService() {
+    getPregnants(1);
+  }
+
+  getPregnants(int pageNumber) async {
+    // if (pregnantsList.isNotEmpty) {
+    //   return pregnantsList;
+    // }
+    pregnantsList.clear();
+
+    final token = await AuthService.getToken();
+    final resp = await http.get(
+        Uri.parse('${Environment.apiUrl}/pregnant?page=$pageNumber'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        });
+
+    final pregnantsResponse = pregnantResponseFromJson(resp.body);
+    pregnantsList.addAll(pregnantsResponse.data!);
+
+    print('llamada embarazos');
+    notifyListeners();
+  }
+
   // Validation
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String names = '';
@@ -70,6 +97,7 @@ class PregnancyService with ChangeNotifier {
 
     if (resp.statusCode == 201) {
       final pregnantCreatedResponse = newPregnantResponseFromJson(resp.body);
+      pregnantsList.add(pregnantCreatedResponse.pregnant);
       print(pregnantCreatedResponse);
       return true;
     } else {

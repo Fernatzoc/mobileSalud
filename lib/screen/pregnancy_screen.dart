@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/index.dart';
 
 class PregnacyScreen extends StatelessWidget {
   const PregnacyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<String> items = List<String>.generate(30, (i) => '$i');
+    final pregnants = Provider.of<PregnancyService>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -23,22 +26,29 @@ class PregnacyScreen extends StatelessWidget {
               )),
         ],
       ),
-      body: Center(
-        child: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: CircleAvatar(
-                backgroundColor: const Color(0xff6A7AFA),
-                child: Text(items[index]),
+      body: pregnants.pregnantsList.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : RefreshIndicator(
+              onRefresh: () => pregnants.getPregnants(1),
+              child: ListView.builder(
+                itemCount: pregnants.pregnantsList.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 2,
+                    margin: const EdgeInsets.all(5),
+                    child: ListTile(
+                      leading: const CircleAvatar(
+                        backgroundColor: Color(0xff6A7AFA),
+                        child: Text('a'),
+                      ),
+                      title: Text(pregnants.pregnantsList[index].nombres!),
+                      subtitle: Text(pregnants.pregnantsList[index].apellidos!),
+                      // trailing: const Icon(Icons.arrow_forward_ios),
+                    ),
+                  );
+                },
               ),
-              title: const Text('nombre apellido'),
-              subtitle: const Text('Estado'),
-              trailing: const Icon(Icons.more_vert),
-            );
-          },
-        ),
-      ),
+            ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xff6A7AFA),
         child: const Icon(Icons.add),
