@@ -1,3 +1,5 @@
+import 'index.dart';
+
 class Pregnant {
   Pregnant({
     required this.cui,
@@ -9,6 +11,7 @@ class Pregnant {
     required this.peso,
     required this.altura,
     required this.idUser,
+    this.userName,
     required this.updatedAt,
     required this.createdAt,
     required this.id,
@@ -18,13 +21,14 @@ class Pregnant {
   String nombres;
   String apellidos;
   String direccion;
-  DateTime fechaDeNacimiento;
-  DateTime ultimaRegla;
+  String fechaDeNacimiento;
+  String ultimaRegla;
   String peso;
   String altura;
+  String? userName;
   String idUser;
-  DateTime updatedAt;
-  DateTime createdAt;
+  String updatedAt;
+  String createdAt;
   int id;
 
   factory Pregnant.fromJson(Map<String, dynamic> json) => Pregnant(
@@ -32,13 +36,14 @@ class Pregnant {
         nombres: json["nombres"],
         apellidos: json["apellidos"],
         direccion: json["direccion"],
-        fechaDeNacimiento: DateTime.parse(json["fecha_de_nacimiento"]),
-        ultimaRegla: DateTime.parse(json["ultima_regla"]),
+        fechaDeNacimiento: json["fecha_de_nacimiento"],
+        ultimaRegla: json["ultima_regla"],
         peso: json["peso"],
         altura: json["altura"],
         idUser: json["id_user"],
-        updatedAt: DateTime.parse(json["updated_at"]),
-        createdAt: DateTime.parse(json["created_at"]),
+        userName: json["user_name"],
+        updatedAt: json["updated_at"],
+        createdAt: json["created_at"],
         id: json["id"],
       );
 
@@ -47,15 +52,14 @@ class Pregnant {
         "nombres": nombres,
         "apellidos": apellidos,
         "direccion": direccion,
-        "fecha_de_nacimiento":
-            "${fechaDeNacimiento.year.toString().padLeft(4, '0')}-${fechaDeNacimiento.month.toString().padLeft(2, '0')}-${fechaDeNacimiento.day.toString().padLeft(2, '0')}",
-        "ultima_regla":
-            "${ultimaRegla.year.toString().padLeft(4, '0')}-${ultimaRegla.month.toString().padLeft(2, '0')}-${ultimaRegla.day.toString().padLeft(2, '0')}",
+        "fecha_de_nacimiento": fechaDeNacimiento,
+        "ultima_regla": ultimaRegla,
         "peso": peso,
         "altura": altura,
         "id_user": idUser,
-        "updated_at": updatedAt.toIso8601String(),
-        "created_at": createdAt.toIso8601String(),
+        "user_name": userName,
+        "updated_at": updatedAt,
+        "created_at": createdAt,
         "id": id,
       };
 }

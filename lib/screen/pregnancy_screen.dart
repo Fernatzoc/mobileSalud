@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/index.dart';
 import '../providers/index.dart';
 
 class PregnacyScreen extends StatelessWidget {
@@ -33,19 +34,8 @@ class PregnacyScreen extends StatelessWidget {
               child: ListView.builder(
                 itemCount: pregnants.pregnantsList.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    elevation: 2,
-                    margin: const EdgeInsets.all(5),
-                    child: ListTile(
-                      leading: const CircleAvatar(
-                        backgroundColor: Color(0xff6A7AFA),
-                        child: Text('a'),
-                      ),
-                      title: Text(pregnants.pregnantsList[index].nombres!),
-                      subtitle: Text(pregnants.pregnantsList[index].apellidos!),
-                      // trailing: const Icon(Icons.arrow_forward_ios),
-                    ),
-                  );
+                  return _CardPregnant(
+                      pregnant: pregnants.pregnantsList[index]);
                 },
               ),
             ),
@@ -53,6 +43,36 @@ class PregnacyScreen extends StatelessWidget {
         backgroundColor: const Color(0xff6A7AFA),
         child: const Icon(Icons.add),
         onPressed: () => Navigator.pushNamed(context, 'createRegister'),
+      ),
+    );
+  }
+}
+
+class _CardPregnant extends StatelessWidget {
+  final Pregnant pregnant;
+
+  const _CardPregnant({
+    Key? key,
+    required this.pregnant,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () =>
+          Navigator.pushNamed(context, 'singlePregnant', arguments: pregnant),
+      child: Card(
+        elevation: 2,
+        margin: const EdgeInsets.all(5),
+        child: ListTile(
+          leading: const CircleAvatar(
+            backgroundColor: Color(0xff6A7AFA),
+            child: Text('a'),
+          ),
+          title: Text(pregnant.nombres),
+          subtitle: Text(pregnant.apellidos),
+          trailing: const Icon(Icons.arrow_forward_ios),
+        ),
       ),
     );
   }

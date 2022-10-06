@@ -41,6 +41,7 @@ dependencies:
   flutter_secure_storage: ^6.0.0
   fluttertoast: ^8.0.9
   date_time_picker: "^2.1.0"
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -80,7 +81,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: NotoSans
+      fonts:
+        - asset: fonts/NotoSans-Regular.ttf
+        - asset: fonts/NotoSans-Italic.ttf
+          style: italic
+        - asset: fonts/NotoSans-Bold.ttf
+          weight: 700
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
