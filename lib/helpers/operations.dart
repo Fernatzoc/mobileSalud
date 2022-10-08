@@ -3,6 +3,14 @@ import 'package:intl/intl.dart';
 final DateFormat formatter = DateFormat('dd-MM-yyyy');
 final DateTime now = DateTime.now();
 
+// Calc
+String formaterDate(String lastRule) {
+  var fecha1 = DateTime.parse(lastRule);
+  return formatter.format(fecha1);
+}
+
+// Au
+
 String getAge(String fechaNacimiento) {
   var fecha1 = DateFormat('dd-MM-yyyy').parse(fechaNacimiento);
   return (now.year - fecha1.year).toString();

@@ -34,11 +34,11 @@ class HomeScreen extends StatelessWidget {
           ),
           TableRow(children: [
             _SingleCard(
-                icon: Icons.calculate, text: 'Calculadora', page: 'users'),
+                icon: Icons.calculate, text: 'Calculadora', page: 'calculator'),
             _SingleCard(
               icon: Icons.print,
               text: 'Reportes',
-              page: 'pregnancy',
+              page: 'report',
             )
           ])
         ],

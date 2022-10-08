@@ -1,5 +1,3 @@
-import 'index.dart';
-
 class Pregnant {
   Pregnant({
     required this.cui,
