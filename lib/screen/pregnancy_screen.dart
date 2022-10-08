@@ -65,12 +65,13 @@ class _CardPregnant extends StatelessWidget {
         elevation: 2,
         margin: const EdgeInsets.all(5),
         child: ListTile(
-          leading: const CircleAvatar(
-            backgroundColor: Color(0xff6A7AFA),
-            child: Text('a'),
+          leading: CircleAvatar(
+            backgroundColor: const Color(0xff6A7AFA),
+            child: Text(pregnant.nombres[0],
+                style: const TextStyle(color: Colors.white)),
           ),
-          title: Text(pregnant.nombres),
-          subtitle: Text(pregnant.apellidos),
+          title: Text('${pregnant.nombres} ${pregnant.apellidos}'),
+          subtitle: Text('Cui: ${pregnant.cui}'),
           trailing: const Icon(Icons.arrow_forward_ios),
         ),
       ),

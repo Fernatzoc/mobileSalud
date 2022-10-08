@@ -97,7 +97,7 @@ class PregnancyService with ChangeNotifier {
 
     if (resp.statusCode == 201) {
       final pregnantCreatedResponse = newPregnantResponseFromJson(resp.body);
-      pregnantsList.add(pregnantCreatedResponse.pregnant);
+      pregnantsList.add(pregnantCreatedResponse.data);
       print(pregnantCreatedResponse);
       return true;
     } else {

@@ -24,9 +24,12 @@ class UsersScreen extends StatelessWidget {
                   elevation: 2,
                   margin: const EdgeInsets.all(5),
                   child: ListTile(
-                    leading: const CircleAvatar(
-                      backgroundColor: Color(0xff6A7AFA),
-                      child: Text('a'),
+                    leading: CircleAvatar(
+                      backgroundColor: const Color(0xff6A7AFA),
+                      child: Text(
+                        users[index].name![0],
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ),
                     title: Text(users[index].name!),
                     subtitle: Text(users[index].rol!),

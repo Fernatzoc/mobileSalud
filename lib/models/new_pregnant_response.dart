@@ -1,6 +1,10 @@
+// To parse this JSON data, do
+//
+//     final newPregnantResponse = newPregnantResponseFromJson(jsonString);
+
 import 'dart:convert';
 
-import 'pregnant.dart';
+import 'index.dart';
 
 NewPregnantResponse newPregnantResponseFromJson(String str) =>
     NewPregnantResponse.fromJson(json.decode(str));
@@ -10,21 +14,17 @@ String newPregnantResponseToJson(NewPregnantResponse data) =>
 
 class NewPregnantResponse {
   NewPregnantResponse({
-    required this.status,
-    required this.pregnant,
+    required this.data,
   });
 
-  String status;
-  Pregnant pregnant;
+  Pregnant data;
 
   factory NewPregnantResponse.fromJson(Map<String, dynamic> json) =>
       NewPregnantResponse(
-        status: json["status"],
-        pregnant: Pregnant.fromJson(json["pregnant"]),
+        data: Pregnant.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "status": status,
-        "pregnant": pregnant.toJson(),
+        "data": data.toJson(),
       };
 }

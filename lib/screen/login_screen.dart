@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.9,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: const [_Logo(), _Form(), _Labels()],
             ),
           ),
@@ -35,15 +35,15 @@ class _Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 170,
+        width: double.infinity,
         margin: const EdgeInsets.only(top: 50),
         child: Column(
           children: const [
             Image(image: AssetImage('assets/salud.png')),
             SizedBox(height: 20),
             Text(
-              'Salud',
-              style: TextStyle(fontSize: 30),
+              'Inicia sesión',
+              style: TextStyle(fontSize: 30, fontFamily: 'NotoSans'),
             )
           ],
         ),
@@ -65,7 +65,7 @@ class __FormState extends State<_Form> {
     final authService = Provider.of<AuthService>(context);
 
     return Container(
-      margin: const EdgeInsets.only(top: 40),
+      // margin: const EdgeInsets.only(top: 40),
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Form(
         key: authService.formKey,
@@ -143,7 +143,7 @@ class _Labels extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [Text('Info')],
+      children: const [Text('UMG')],
     );
   }
 }

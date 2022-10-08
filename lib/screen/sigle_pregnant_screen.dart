@@ -38,7 +38,11 @@ class SinglePregnantScreen extends StatelessWidget {
                 altura: pregnant.altura,
                 createdAt: pregnant.createdAt,
                 autor: pregnant.userName!,
-              )
+              ),
+              const SizedBox(height: 15),
+              _InfoState(lastRule: pregnant.ultimaRegla),
+              const SizedBox(height: 15),
+              _InfoPeso(peso: pregnant.peso, altura: pregnant.altura),
             ],
           ),
         ),
@@ -123,154 +127,155 @@ class _InfoPerson extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Column(
-                      children: [
-                        const Text(
-                          'Edad',
-                          style: TextStyle(
-                              color: colorText,
-                              fontFamily: fontText,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          getAge(nacimientoDate).toString(),
-                          style: const TextStyle(
-                              color: colorText, fontFamily: fontText),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        const Text(
-                          'Peso',
-                          style: TextStyle(
-                              color: colorText,
-                              fontFamily: fontText,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '$peso lb',
-                          style: const TextStyle(
-                              color: colorText, fontFamily: fontText),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        const Text(
-                          'Altura',
-                          style: TextStyle(
-                              color: colorText,
-                              fontFamily: fontText,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '$altura mt',
-                          style: const TextStyle(
-                              color: colorText, fontFamily: fontText),
-                        )
-                      ],
-                    ),
+                    _TitleAndInfo(
+                        title: 'Edad', value: '${getAge(nacimientoDate)} años'),
+                    _TitleAndInfo(title: 'Peso', value: '$peso lb'),
+                    _TitleAndInfo(title: 'Altura', value: '$altura mt'),
                   ],
                 ),
                 const SizedBox(height: 18),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'CUI',
-                      style: TextStyle(
-                          color: colorText,
-                          fontSize: 15,
-                          fontFamily: fontText,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    Text(cui,
-                        style: const TextStyle(
-                            color: colorText,
-                            fontSize: 15,
-                            fontFamily: fontText))
-                  ],
-                ),
+                _TitleAndInfo(title: 'Cui', value: cui),
                 const SizedBox(height: 18),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Dirección',
-                      style: TextStyle(
-                          color: colorText,
-                          fontSize: 15,
-                          fontFamily: fontText,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    Text(address,
-                        style: const TextStyle(
-                            color: colorText,
-                            fontSize: 15,
-                            fontFamily: fontText))
-                  ],
-                ),
+                _TitleAndInfo(title: 'Dirección', value: address),
                 const SizedBox(height: 18),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Fecha de nacimiento',
-                      style: TextStyle(
-                          color: colorText,
-                          fontSize: 15,
-                          fontFamily: fontText,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    Text(nacimientoDate,
-                        style: const TextStyle(
-                            color: colorText,
-                            fontSize: 15,
-                            fontFamily: fontText))
-                  ],
-                ),
+                _TitleAndInfo(
+                    title: 'Fecha de nacimiento', value: nacimientoDate),
                 const SizedBox(height: 18),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Fecha de registro',
-                      style: TextStyle(
-                          color: colorText,
-                          fontSize: 15,
-                          fontFamily: fontText,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    Text(createdAt,
-                        style: const TextStyle(
-                            color: colorText,
-                            fontSize: 15,
-                            fontFamily: fontText))
-                  ],
-                ),
+                _TitleAndInfo(title: 'Fecha de registro', value: createdAt),
                 const SizedBox(height: 18),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Registrado por:',
-                      style: TextStyle(
-                          color: colorText,
-                          fontSize: 15,
-                          fontFamily: fontText,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    Text(autor,
-                        style: const TextStyle(
-                            color: colorText,
-                            fontSize: 15,
-                            fontFamily: fontText))
-                  ],
-                ),
+                _TitleAndInfo(title: 'Registrado por:', value: autor),
                 const SizedBox(height: 18),
               ],
             )),
+      ],
+    );
+  }
+}
+
+class _InfoState extends StatelessWidget {
+  final String lastRule;
+
+  const _InfoState({Key? key, required this.lastRule}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            color: Color(0xff97a2fc),
+          ),
+          padding: const EdgeInsets.all(12),
+          width: double.infinity,
+          child: const Text(
+            'Edad Gestacional',
+            style: TextStyle(
+                color: Colors.white, fontFamily: fontText, fontSize: 15),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(2.0)),
+          padding: const EdgeInsets.all(12),
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _TitleAndInfo(title: 'Ultima regla', value: lastRule),
+              const SizedBox(height: 18),
+              _TitleAndInfo(title: 'Trimestre:', value: getQuarterly(lastRule)),
+              const SizedBox(height: 18),
+              _TitleAndInfo(
+                  title: 'Semanas',
+                  value: getWeeks(lastRule).toStringAsFixed(2)),
+              const SizedBox(height: 18),
+              _TitleAndInfo(
+                title: 'Fecha prevista de parto',
+                value: getDateOfBirth(lastRule),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _InfoPeso extends StatelessWidget {
+  final String peso;
+  final String altura;
+
+  const _InfoPeso({Key? key, required this.peso, required this.altura})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            color: Color(0xff97a2fc),
+          ),
+          padding: const EdgeInsets.all(12),
+          width: double.infinity,
+          child: const Text(
+            'Estado del peso',
+            style: TextStyle(
+                color: Colors.white, fontFamily: fontText, fontSize: 15),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(2.0)),
+          padding: const EdgeInsets.all(12),
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Image(image: AssetImage('assets/imc.jpg')),
+              _TitleAndInfo(
+                  title: 'Indice de masa corporal:',
+                  value: calcImc(peso, altura).toStringAsFixed(2)),
+              const SizedBox(height: 18),
+              _TitleAndInfo(
+                  title: 'Estado de peso:', value: idealWeight(peso, altura)),
+              const SizedBox(height: 18),
+              _TitleAndInfo(
+                  title: 'Aumento de peso recomendado',
+                  value: increaseRecommended(peso, altura))
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _TitleAndInfo extends StatelessWidget {
+  final String title;
+  final String value;
+
+  const _TitleAndInfo({Key? key, required this.title, required this.value})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+              color: colorText,
+              fontSize: 15,
+              fontFamily: fontText,
+              fontWeight: FontWeight.w700),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+              color: colorText, fontSize: 15, fontFamily: fontText),
+        )
       ],
     );
   }

@@ -65,6 +65,7 @@ class UserService with ChangeNotifier {
 
     if (resp.statusCode == 201) {
       final userCreatedResponse = loginResponseFromJson(resp.body);
+      users.add(userCreatedResponse.user!);
       print(userCreatedResponse);
       return true;
     } else {

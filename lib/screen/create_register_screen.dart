@@ -107,8 +107,9 @@ class _FormPregnantState extends State<_FormPregnant> {
                   ]),
               child: DateTimePicker(
                 initialValue: '',
-                firstDate: DateTime(1800),
-                lastDate: DateTime(2030),
+                firstDate: DateTime(1950),
+                lastDate: DateTime(DateTime.now().year, DateTime.now().month,
+                    DateTime.now().day),
                 dateLabelText: 'Fecha de Nacimiento',
                 confirmText: 'Aceptar',
                 cancelText: 'Cancelar',
@@ -143,8 +144,9 @@ class _FormPregnantState extends State<_FormPregnant> {
                   ]),
               child: DateTimePicker(
                 initialValue: '',
-                firstDate: DateTime(1800),
-                lastDate: DateTime(2030),
+                firstDate: DateTime(DateTime.now().year,
+                    DateTime.now().month - 9, DateTime.now().day),
+                lastDate: DateTime.now(),
                 dateLabelText: 'Ultima regla',
                 confirmText: 'Aceptar',
                 cancelText: 'Cancelar',
