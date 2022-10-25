@@ -45,6 +45,7 @@ class PregnancyService with ChangeNotifier {
   String lastRule = '';
   String weight = '';
   String height = '';
+  String cmb = '';
 
   bool isValidForm() {
     return formKey.currentState?.validate() ?? false;
@@ -68,7 +69,8 @@ class PregnancyService with ChangeNotifier {
       String dateOfBirth,
       String lastRule,
       String weight,
-      String height) async {
+      String height,
+      String cmb) async {
     creatingPregnant = true;
 
     final token = await AuthService.getToken();
@@ -83,6 +85,7 @@ class PregnancyService with ChangeNotifier {
       'ultima_regla': lastRule,
       'peso': weight,
       'altura': height,
+      'cmb': cmb,
       'id_user': userId
     };
 

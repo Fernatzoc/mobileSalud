@@ -36,6 +36,7 @@ class SinglePregnantScreen extends StatelessWidget {
                 nacimientoDate: pregnant.fechaDeNacimiento,
                 peso: pregnant.peso,
                 altura: pregnant.altura,
+                cmb: pregnant.cmb,
                 createdAt: pregnant.createdAt,
                 autor: pregnant.userName!,
               ),
@@ -86,6 +87,7 @@ class _InfoPerson extends StatelessWidget {
   final String nacimientoDate;
   final String peso;
   final String altura;
+  final String cmb;
   final String createdAt;
   final String autor;
 
@@ -96,6 +98,7 @@ class _InfoPerson extends StatelessWidget {
       required this.cui,
       required this.peso,
       required this.altura,
+      required this.cmb,
       required this.createdAt,
       required this.autor})
       : super(key: key);
@@ -131,6 +134,7 @@ class _InfoPerson extends StatelessWidget {
                         title: 'Edad', value: '${getAge(nacimientoDate)} años'),
                     _TitleAndInfo(title: 'Peso', value: '$peso lb'),
                     _TitleAndInfo(title: 'Altura', value: '$altura mt'),
+                    _TitleAndInfo(title: 'Cmb', value: '$cmb cm'),
                   ],
                 ),
                 const SizedBox(height: 18),
@@ -219,7 +223,7 @@ class _InfoPeso extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           width: double.infinity,
           child: const Text(
-            'Estado del peso',
+            'Estado nutricional',
             style: TextStyle(
                 color: Colors.white, fontFamily: fontText, fontSize: 15),
           ),

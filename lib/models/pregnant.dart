@@ -8,6 +8,7 @@ class Pregnant {
     required this.ultimaRegla,
     required this.peso,
     required this.altura,
+    required this.cmb,
     required this.idUser,
     this.userName,
     required this.updatedAt,
@@ -23,6 +24,7 @@ class Pregnant {
   String ultimaRegla;
   String peso;
   String altura;
+  String cmb;
   String? userName;
   String idUser;
   String updatedAt;
@@ -38,6 +40,7 @@ class Pregnant {
         ultimaRegla: json["ultima_regla"],
         peso: json["peso"],
         altura: json["altura"],
+        cmb: json["cmb"],
         idUser: json["id_user"],
         userName: json["user_name"],
         updatedAt: json["updated_at"],
@@ -54,6 +57,7 @@ class Pregnant {
         "ultima_regla": ultimaRegla,
         "peso": peso,
         "altura": altura,
+        "cmb": cmb,
         "id_user": idUser,
         "user_name": userName,
         "updated_at": updatedAt,

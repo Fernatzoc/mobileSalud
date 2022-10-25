@@ -3,9 +3,22 @@ import 'package:provider/provider.dart';
 
 import '../models/index.dart';
 import '../providers/index.dart';
+import '../services/download_service.dart';
 
 class PregnacyScreen extends StatelessWidget {
   const PregnacyScreen({super.key});
+
+  Future<void> _downloadFilePdf() async {
+    DownloadService downloadService = MobileDownloadService();
+    await downloadService.download(
+        url: 'http://10.0.2.2:8000/api/download.pdf');
+  }
+
+  Future<void> _downloadFileExcel() async {
+    DownloadService downloadService = MobileDownloadService();
+    await downloadService.download(
+        url: 'http://10.0.2.2:8000/api/downloadExcel.xlsx');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +38,20 @@ class PregnacyScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
               )),
+          PopupMenuButton(itemBuilder: (context) {
+            return [
+              PopupMenuItem<int>(
+                value: 0,
+                onTap: _downloadFilePdf,
+                child: const Text("Exportar a PDF"),
+              ),
+              PopupMenuItem<int>(
+                value: 1,
+                onTap: _downloadFileExcel,
+                child: const Text("Exportar a Excel"),
+              ),
+            ];
+          }),
         ],
       ),
       body: pregnants.pregnantsList.isEmpty

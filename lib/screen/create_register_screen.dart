@@ -188,6 +188,17 @@ class _FormPregnantState extends State<_FormPregnant> {
                       ? null
                       : 'El campo altura es requerido';
                 }),
+            CustomInput(
+                icon: Icons.perm_identity_outlined,
+                placeHolder: 'Cmb',
+                labelText: const Text('Cmb'),
+                keyboadType: TextInputType.number,
+                onChanged: (value) => pregnancyService.cmb = value!,
+                validator: (value) {
+                  return (value?.trim().isNotEmpty == true)
+                      ? null
+                      : 'El campo altura es requerido';
+                }),
             CustomButton(
                 color: Theme.of(context).primaryColor,
                 text: 'Guardar',
@@ -206,7 +217,8 @@ class _FormPregnantState extends State<_FormPregnant> {
                                 pregnancyService.dateOfBirth.trim(),
                                 pregnancyService.lastRule.trim(),
                                 pregnancyService.weight.trim(),
-                                pregnancyService.height.trim());
+                                pregnancyService.height.trim(),
+                                pregnancyService.cmb.trim());
 
                         if (pregnantCreateStatus) {
                           if (!mounted) return;
