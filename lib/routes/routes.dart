@@ -11,5 +11,6 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'createRegister': (_) => const CreateRegisterScreen(),
   'singlePregnant': (_) => const SinglePregnantScreen(),
   'calculator': (_) => const CalculatorScreen(),
+  'previewPregnantPdf': (_) => const PdfPreviewPregnantScreen(),
   'report': (_) => const ReportScreen()
 };

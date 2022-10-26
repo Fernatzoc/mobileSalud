@@ -49,6 +49,9 @@ dependencies:
   permission_handler: ^10.2.0
   open_file: ^3.2.1
 
+  pdf: ## add this
+  printing: ## also add this
+
   flutter_file_dialog: ^2.3.2
   flash: ^2.0.5
 
