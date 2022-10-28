@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 import '../global/environment.dart';
+import '../helpers/debouncer.dart';
 import '../models/index.dart';
 import './index.dart';
 
@@ -185,5 +187,39 @@ class PregnancyService with ChangeNotifier {
     } else {
       return false;
     }
+  }
+
+  final debouncer = Debouncer(
+    duration: const Duration(milliseconds: 500),
+    // onValue:
+  );
+
+  final StreamController<List<Pregnant>> _suggestionsStreamController =
+      StreamController.broadcast();
+  Stream<List<Pregnant>> get suggestionStream =>
+      _suggestionsStreamController.stream;
+
+  Future<List<Pregnant>?> searchPregnant(String query) async {
+    final url = Uri.parse('${Environment.apiUrl}/pregnant/search/$query');
+
+    final response = await http.get(url);
+    final searchResponse = pregnantResponseFromJson(response.body);
+
+    return searchResponse.data;
+  }
+
+  void getSuggestionsByQuery(String searchTerm) {
+    debouncer.value = '';
+    debouncer.onValue = (value) async {
+      final results = await searchPregnant(value);
+      _suggestionsStreamController.add(results!);
+    };
+
+    final timer = Timer.periodic(const Duration(milliseconds: 300), (_) {
+      debouncer.value = searchTerm;
+    });
+
+    Future.delayed(const Duration(milliseconds: 301))
+        .then((_) => timer.cancel());
   }
 }
