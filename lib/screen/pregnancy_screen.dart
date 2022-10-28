@@ -3,22 +3,10 @@ import 'package:provider/provider.dart';
 
 import '../models/index.dart';
 import '../providers/index.dart';
-import '../services/download_service.dart';
+import '../services/reports_service.dart';
 
 class PregnacyScreen extends StatelessWidget {
   const PregnacyScreen({super.key});
-
-  Future<void> _downloadFilePdf() async {
-    DownloadService downloadService = MobileDownloadService();
-    await downloadService.download(
-        url: 'http://10.0.2.2:8000/api/download.pdf');
-  }
-
-  Future<void> _downloadFileExcel() async {
-    DownloadService downloadService = MobileDownloadService();
-    await downloadService.download(
-        url: 'http://10.0.2.2:8000/api/downloadExcel.xlsx');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +28,15 @@ class PregnacyScreen extends StatelessWidget {
               )),
           PopupMenuButton(itemBuilder: (context) {
             return [
-              PopupMenuItem<int>(
+              const PopupMenuItem<int>(
                 value: 0,
-                onTap: _downloadFilePdf,
-                child: const Text("Exportar a PDF"),
+                onTap: downloadFilePdf,
+                child: Text("Exportar a PDF"),
               ),
-              PopupMenuItem<int>(
+              const PopupMenuItem<int>(
                 value: 1,
-                onTap: _downloadFileExcel,
-                child: const Text("Exportar a Excel"),
+                onTap: downloadFileExcel,
+                child: Text("Exportar a Excel"),
               ),
             ];
           }),

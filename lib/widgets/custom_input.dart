@@ -7,6 +7,8 @@ class CustomInput extends StatelessWidget {
   final String? Function(String?)? onChanged;
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
+  final String? initialValue;
+  final TextEditingController? controller;
   final TextInputType keyboadType;
   final bool isPassword;
 
@@ -19,6 +21,8 @@ class CustomInput extends StatelessWidget {
     this.keyboadType = TextInputType.text,
     this.isPassword = false,
     this.suffixIcon,
+    this.initialValue,
+    this.controller,
     required this.labelText,
   }) : super(key: key);
 
@@ -40,6 +44,8 @@ class CustomInput extends StatelessWidget {
           autocorrect: false,
           keyboardType: keyboadType,
           obscureText: isPassword,
+          initialValue: initialValue,
+          controller: controller,
           decoration: InputDecoration(
               label: labelText,
               prefixIcon: Icon(icon),

@@ -1,31 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
-import '../helpers/operations.dart';
+import 'operations.dart';
 import '../models/index.dart';
 
-class PdfPreviewPregnantScreen extends StatelessWidget {
-  const PdfPreviewPregnantScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final Pregnant pregnant =
-        ModalRoute.of(context)!.settings.arguments as Pregnant;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('PDF Preview'),
-      ),
-      body: PdfPreview(
-        build: (context) => _makePdf(pregnant),
-      ),
-    );
-  }
-}
-
-Future<Uint8List> _makePdf(Pregnant pregnant) async {
+Future<void> makePdf(Pregnant pregnant) async {
   final pdf = pw.Document();
   final imageIMC = pw.MemoryImage(
     (await rootBundle.load('assets/imc.jpg')).buffer.asUint8List(),
@@ -112,7 +93,10 @@ Future<Uint8List> _makePdf(Pregnant pregnant) async {
     ),
   );
 
-  return pdf.save();
+  await Printing.layoutPdf(
+      name: 'Reporte ${pregnant.nombres} ${pregnant.apellidos}',
+      onLayout: (PdfPageFormat format) async => pdf.save());
+  // return pdf.save();
 }
 
 pw.Column _tableCmbA(Pregnant pregnant) {
@@ -357,7 +341,7 @@ pw.Column _infoState(Pregnant pregnant) {
         child: pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
-            _titleAndInfo('Ultima regla', pregnant.ultimaRegla),
+            _titleAndInfo(pregnant.tipoDeExamen, pregnant.ultimaRegla),
             pw.SizedBox(height: 18),
             _titleAndInfo('Trimestre:', getQuarterly(pregnant.ultimaRegla)),
             pw.SizedBox(height: 18),

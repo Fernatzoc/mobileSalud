@@ -1,22 +1,109 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 import '../helpers/operations.dart';
+import '../helpers/pdf_preview_pregnant_screen.dart';
+import '../helpers/show_alert.dart';
 import '../models/index.dart';
+import '../providers/index.dart';
 
 const Color colorText = Color(0xff25396F);
 const String fontText = 'NotoSans';
 
-class SinglePregnantScreen extends StatelessWidget {
+class SinglePregnantScreen extends StatefulWidget {
   const SinglePregnantScreen({super.key});
 
   @override
+  State<SinglePregnantScreen> createState() => _SinglePregnantScreenState();
+}
+
+class _SinglePregnantScreenState extends State<SinglePregnantScreen> {
+  @override
   Widget build(BuildContext context) {
+    final pregnancyService = Provider.of<PregnancyService>(context);
     final Pregnant pregnant =
         ModalRoute.of(context)!.settings.arguments as Pregnant;
+
+    Future<void> showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Alerta'),
+            content: SingleChildScrollView(
+              child: Column(
+                children: const [
+                  Text('¿Esta seguro de eliminar este registro?'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: pregnancyService.creatingPregnant
+                    ? null
+                    : () async {
+                        final pregnantCreateStatus = await pregnancyService
+                            .deletePregnant(pregnant.id.toString());
+
+                        if (pregnantCreateStatus) {
+                          if (!mounted) return;
+                          int count = 0;
+                          Navigator.of(context).popUntil((_) => count++ >= 2);
+                          Fluttertoast.showToast(
+                              msg: "Registro Eliminado Correctamente",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: const Color(0xff6A7AFA),
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        } else {
+                          if (!mounted) return;
+                          showAlert(context, 'Error', 'Compruebe sus datos');
+                        }
+                      },
+                child: const Text('Confirmar'),
+              ),
+              TextButton(
+                child: const Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registro'),
+        actions: [
+          Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () => Navigator.pushNamed(context, 'updateRegister',
+                    arguments: pregnant),
+                child: const Icon(
+                  Icons.mode_edit_outline,
+                  size: 26.0,
+                  color: Colors.white,
+                ),
+              )),
+          Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () => {showMyDialog()},
+                child: const Icon(
+                  Icons.delete_forever_outlined,
+                  size: 26.0,
+                  color: Colors.white,
+                ),
+              )),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -41,7 +128,9 @@ class SinglePregnantScreen extends StatelessWidget {
                 autor: pregnant.userName!,
               ),
               const SizedBox(height: 15),
-              _InfoState(lastRule: pregnant.ultimaRegla),
+              _InfoState(
+                  lastRule: pregnant.ultimaRegla,
+                  examType: pregnant.tipoDeExamen),
               const SizedBox(height: 15),
               _InfoPeso(
                 peso: pregnant.peso,
@@ -53,11 +142,8 @@ class SinglePregnantScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, 'previewPregnantPdf',
-              arguments: pregnant);
-        },
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => makePdf(pregnant),
         child: const Icon(Icons.picture_as_pdf),
       ),
     );
@@ -170,8 +256,10 @@ class _InfoPerson extends StatelessWidget {
 
 class _InfoState extends StatelessWidget {
   final String lastRule;
+  final String examType;
 
-  const _InfoState({Key? key, required this.lastRule}) : super(key: key);
+  const _InfoState({Key? key, required this.lastRule, required this.examType})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +285,7 @@ class _InfoState extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _TitleAndInfo(title: 'Ultima regla', value: lastRule),
+              _TitleAndInfo(title: examType, value: lastRule),
               const SizedBox(height: 18),
               _TitleAndInfo(title: 'Trimestre:', value: getQuarterly(lastRule)),
               const SizedBox(height: 18),

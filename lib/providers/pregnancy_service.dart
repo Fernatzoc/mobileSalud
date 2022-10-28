@@ -42,6 +42,7 @@ class PregnancyService with ChangeNotifier {
   String cui = '';
   String address = '';
   String dateOfBirth = '';
+  String examType = '';
   String lastRule = '';
   String weight = '';
   String height = '';
@@ -67,6 +68,7 @@ class PregnancyService with ChangeNotifier {
       String cui,
       String address,
       String dateOfBirth,
+      String examType,
       String lastRule,
       String weight,
       String height,
@@ -82,6 +84,7 @@ class PregnancyService with ChangeNotifier {
       'cui': cui,
       'direccion': address,
       'fecha_de_nacimiento': dateOfBirth,
+      'tipo_de_examen': examType,
       'ultima_regla': lastRule,
       'peso': weight,
       'altura': height,
@@ -100,8 +103,84 @@ class PregnancyService with ChangeNotifier {
 
     if (resp.statusCode == 201) {
       final pregnantCreatedResponse = newPregnantResponseFromJson(resp.body);
-      pregnantsList.add(pregnantCreatedResponse.data);
+      pregnantsList.insert(0, pregnantCreatedResponse.data);
       print(pregnantCreatedResponse);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> updatePregnant(
+      String idPregnant,
+      String names,
+      String lastNames,
+      String cui,
+      String address,
+      String dateOfBirth,
+      String examType,
+      String lastRule,
+      String weight,
+      String height,
+      String cmb) async {
+    creatingPregnant = true;
+
+    final token = await AuthService.getToken();
+    final userId = await AuthService.getIdUser();
+
+    final data = {
+      'nombres': names,
+      'apellidos': lastNames,
+      'cui': cui,
+      'direccion': address,
+      'fecha_de_nacimiento': dateOfBirth,
+      'tipo_de_examen': examType,
+      'ultima_regla': lastRule,
+      'peso': weight,
+      'altura': height,
+      'cmb': cmb,
+      'id_user': userId
+    };
+
+    final resp = await http.put(
+        Uri.parse('${Environment.apiUrl}/pregnant/$idPregnant'),
+        body: jsonEncode(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        });
+
+    creatingPregnant = false;
+
+    if (resp.statusCode == 200) {
+      final pregnantCreatedResponse = newPregnantResponseFromJson(resp.body);
+      var item = pregnantsList.firstWhere((i) => i.id.toString() == idPregnant);
+      var index = pregnantsList.indexOf(item);
+      pregnantsList[index] = pregnantCreatedResponse.data;
+
+      print(pregnantCreatedResponse);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> deletePregnant(String idPregnant) async {
+    creatingPregnant = true;
+
+    final token = await AuthService.getToken();
+
+    final resp = await http.delete(
+        Uri.parse('${Environment.apiUrl}/pregnant/$idPregnant'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        });
+
+    creatingPregnant = false;
+
+    if (resp.statusCode == 200) {
+      pregnantsList.removeWhere((i) => i.id.toString() == idPregnant);
       return true;
     } else {
       return false;

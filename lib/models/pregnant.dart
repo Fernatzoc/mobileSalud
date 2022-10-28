@@ -6,6 +6,7 @@ class Pregnant {
     required this.direccion,
     required this.fechaDeNacimiento,
     required this.ultimaRegla,
+    required this.tipoDeExamen,
     required this.peso,
     required this.altura,
     required this.cmb,
@@ -22,6 +23,7 @@ class Pregnant {
   String direccion;
   String fechaDeNacimiento;
   String ultimaRegla;
+  String tipoDeExamen;
   String peso;
   String altura;
   String cmb;
@@ -37,6 +39,7 @@ class Pregnant {
         apellidos: json["apellidos"],
         direccion: json["direccion"],
         fechaDeNacimiento: json["fecha_de_nacimiento"],
+        tipoDeExamen: json["tipo_de_examen"],
         ultimaRegla: json["ultima_regla"],
         peso: json["peso"],
         altura: json["altura"],
@@ -55,6 +58,7 @@ class Pregnant {
         "direccion": direccion,
         "fecha_de_nacimiento": fechaDeNacimiento,
         "ultima_regla": ultimaRegla,
+        "tipo_de_examen": tipoDeExamen,
         "peso": peso,
         "altura": altura,
         "cmb": cmb,

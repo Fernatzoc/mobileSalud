@@ -4,24 +4,32 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../helpers/show_alert.dart';
+import '../models/index.dart';
 import '../providers/index.dart';
 import '../widgets/index.dart';
 
-class CreateRegisterScreen extends StatelessWidget {
-  const CreateRegisterScreen({super.key});
+class UpdateRegisterScreen extends StatelessWidget {
+  const UpdateRegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final Pregnant pregnant =
+        ModalRoute.of(context)!.settings.arguments as Pregnant;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nuevo Registro'),
+        title: const Text('Editar Registro'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [_FormPregnant()],
+          children: [
+            _FormPregnant(
+              pregnant: pregnant,
+            )
+          ],
         ),
       ),
     );
@@ -29,13 +37,42 @@ class CreateRegisterScreen extends StatelessWidget {
 }
 
 class _FormPregnant extends StatefulWidget {
-  const _FormPregnant({Key? key}) : super(key: key);
+  final Pregnant pregnant;
+
+  const _FormPregnant({Key? key, required this.pregnant}) : super(key: key);
 
   @override
   State<_FormPregnant> createState() => _FormPregnantState();
 }
 
 class _FormPregnantState extends State<_FormPregnant> {
+  final namesController = TextEditingController();
+  final lastnamesController = TextEditingController();
+  final cuiController = TextEditingController();
+  final addressController = TextEditingController();
+  final dateOfBirthController = TextEditingController();
+  final examTypeController = TextEditingController();
+  final lastRuleController = TextEditingController();
+  final weightController = TextEditingController();
+  final heightController = TextEditingController();
+  final cmbController = TextEditingController();
+
+  @override
+  void initState() {
+    namesController.text = widget.pregnant.nombres;
+    lastnamesController.text = widget.pregnant.apellidos;
+    cuiController.text = widget.pregnant.cui;
+    addressController.text = widget.pregnant.direccion;
+    dateOfBirthController.text = widget.pregnant.fechaDeNacimiento;
+    examTypeController.text = widget.pregnant.tipoDeExamen;
+    lastRuleController.text = widget.pregnant.ultimaRegla;
+    weightController.text = widget.pregnant.peso;
+    heightController.text = widget.pregnant.altura;
+    cmbController.text = widget.pregnant.cmb;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final pregnancyService = Provider.of<PregnancyService>(context);
@@ -52,6 +89,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                 icon: Icons.person_outline,
                 placeHolder: 'Nombres',
                 labelText: const Text('Nombres'),
+                controller: namesController,
                 keyboadType: TextInputType.name,
                 onChanged: (value) => pregnancyService.names = value!,
                 validator: (value) {
@@ -63,6 +101,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                 icon: Icons.person_outline,
                 placeHolder: 'Apellidos',
                 labelText: const Text('Apellidos'),
+                controller: lastnamesController,
                 keyboadType: TextInputType.name,
                 onChanged: (value) => pregnancyService.lastNames = value!,
                 validator: (value) {
@@ -74,6 +113,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                 icon: Icons.perm_identity_outlined,
                 placeHolder: 'Cui',
                 labelText: const Text('Cui'),
+                controller: cuiController,
                 keyboadType: TextInputType.number,
                 onChanged: (value) => pregnancyService.cui = value!,
                 validator: (value) {
@@ -85,6 +125,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                 icon: Icons.home_outlined,
                 placeHolder: 'Dirección',
                 labelText: const Text('Dirección'),
+                controller: addressController,
                 keyboadType: TextInputType.text,
                 onChanged: (value) => pregnancyService.address = value!,
                 validator: (value) {
@@ -106,7 +147,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                         blurRadius: 5)
                   ]),
               child: DateTimePicker(
-                initialValue: '',
+                initialValue: dateOfBirthController.text,
                 firstDate: DateTime(1950),
                 lastDate: DateTime(DateTime.now().year, DateTime.now().month,
                     DateTime.now().day),
@@ -121,7 +162,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                   prefixIcon: Icon(Icons.calendar_month_outlined),
                   border: InputBorder.none,
                 ),
-                onChanged: (value) => pregnancyService.dateOfBirth = value,
+                // onChanged: (value) => pregnancyService.dateOfBirth = value,
                 validator: (value) {
                   return (value?.trim().isNotEmpty == true)
                       ? null
@@ -143,6 +184,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                         blurRadius: 5)
                   ]),
               child: DropdownButtonFormField(
+                value: widget.pregnant.tipoDeExamen,
                 items: const [
                   DropdownMenuItem(
                     value: 'Ultima Regla',
@@ -182,7 +224,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                         blurRadius: 5)
                   ]),
               child: DateTimePicker(
-                initialValue: '',
+                controller: lastRuleController,
                 firstDate: DateTime(DateTime.now().year,
                     DateTime.now().month - 9, DateTime.now().day),
                 lastDate: DateTime.now(),
@@ -197,7 +239,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                   prefixIcon: Icon(Icons.calendar_month_outlined),
                   border: InputBorder.none,
                 ),
-                onChanged: (value) => pregnancyService.lastRule = value,
+                // onChanged: (value) => pregnancyService.lastRule = value,
                 validator: (value) {
                   return (value?.trim().isNotEmpty == true)
                       ? null
@@ -209,6 +251,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                 icon: Icons.perm_identity_outlined,
                 placeHolder: 'Peso en Libras',
                 labelText: const Text('Peso en Libras'),
+                controller: weightController,
                 keyboadType: TextInputType.number,
                 onChanged: (value) => pregnancyService.weight = value!,
                 validator: (value) {
@@ -220,6 +263,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                 icon: Icons.perm_identity_outlined,
                 placeHolder: 'Altura',
                 labelText: const Text('Altura'),
+                controller: heightController,
                 keyboadType: TextInputType.number,
                 onChanged: (value) => pregnancyService.height = value!,
                 validator: (value) {
@@ -231,6 +275,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                 icon: Icons.perm_identity_outlined,
                 placeHolder: 'Cmb',
                 labelText: const Text('Cmb'),
+                controller: cmbController,
                 keyboadType: TextInputType.number,
                 onChanged: (value) => pregnancyService.cmb = value!,
                 validator: (value) {
@@ -240,7 +285,7 @@ class _FormPregnantState extends State<_FormPregnant> {
                 }),
             CustomButton(
                 color: Theme.of(context).primaryColor,
-                text: 'Guardar',
+                text: 'Actualizar',
                 onPressed: pregnancyService.creatingPregnant
                     ? null
                     : () async {
@@ -248,29 +293,31 @@ class _FormPregnantState extends State<_FormPregnant> {
                         if (!pregnancyService.isValidForm()) return;
 
                         final pregnantCreateStatus =
-                            await pregnancyService.createPregnant(
-                                pregnancyService.names.trim(),
-                                pregnancyService.lastNames.trim(),
-                                pregnancyService.cui.trim(),
-                                pregnancyService.address.trim(),
-                                pregnancyService.dateOfBirth.trim(),
-                                pregnancyService.examType.trim(),
-                                pregnancyService.lastRule.trim(),
-                                pregnancyService.weight.trim(),
-                                pregnancyService.height.trim(),
-                                pregnancyService.cmb.trim());
+                            await pregnancyService.updatePregnant(
+                                widget.pregnant.id.toString(),
+                                namesController.text.trim(),
+                                lastnamesController.text.trim(),
+                                cuiController.text.trim(),
+                                addressController.text.trim(),
+                                dateOfBirthController.text.trim(),
+                                widget.pregnant.tipoDeExamen.trim(),
+                                lastRuleController.text.trim(),
+                                weightController.text.trim(),
+                                heightController.text.trim(),
+                                cmbController.text.trim());
 
                         if (pregnantCreateStatus) {
                           if (!mounted) return;
                           Fluttertoast.showToast(
-                              msg: "Registro Creado Correctamente",
+                              msg: "Registro Actualizado Correctamente",
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 1,
                               backgroundColor: const Color(0xff6A7AFA),
                               textColor: Colors.white,
                               fontSize: 16.0);
-                          Navigator.pop(context);
+                          int count = 0;
+                          Navigator.of(context).popUntil((_) => count++ >= 2);
                         } else {
                           if (!mounted) return;
                           showAlert(context, 'Error', 'Compruebe sus datos');
