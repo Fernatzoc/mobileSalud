@@ -10,7 +10,11 @@ LoginResponse loginResponseFromJson(String str) =>
 String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
 
 class LoginResponse {
-  LoginResponse({required this.status, required this.token, required this.id});
+  LoginResponse({
+    required this.status,
+    required this.token,
+    required this.id,
+  });
 
   String status;
   String token;

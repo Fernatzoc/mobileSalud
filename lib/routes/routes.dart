@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_salud/screen/update_user_screen.dart';
 import '../screen/screens.dart';
 
 final Map<String, Widget Function(BuildContext)> appRoutes = {
@@ -9,6 +10,7 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'singleUser': (_) => const SingleUserScreen(),
   'pregnancy': (_) => const PregnacyScreen(),
   'createUser': (_) => const CreateUserScreen(),
+  'updateUser': (_) => const UpdateUserScreen(),
   'createRegister': (_) => const CreateRegisterScreen(),
   'updateRegister': (_) => const UpdateRegisterScreen(),
   'singlePregnant': (_) => const SinglePregnantScreen(),

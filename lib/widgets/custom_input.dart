@@ -17,7 +17,7 @@ class CustomInput extends StatelessWidget {
     required this.icon,
     required this.placeHolder,
     required this.onChanged,
-    required this.validator,
+    this.validator,
     this.keyboadType = TextInputType.text,
     this.isPassword = false,
     this.suffixIcon,

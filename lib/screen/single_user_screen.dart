@@ -12,6 +12,19 @@ class SingleUserScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Usuario'),
+        actions: [
+          Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () =>
+                    Navigator.pushNamed(context, 'updateUser', arguments: user),
+                child: const Icon(
+                  Icons.mode_edit_outline,
+                  size: 26.0,
+                  color: Colors.white,
+                ),
+              ))
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -24,6 +37,8 @@ class SingleUserScreen extends StatelessWidget {
                 name: user.name.toString(),
                 email: user.email.toString(),
                 rol: user.rol.toString(),
+                state: user.estado.toString(),
+                id: user.id.toString(),
               )
             ],
           ),
@@ -37,12 +52,16 @@ class _InfoPerson extends StatelessWidget {
   final String name;
   final String email;
   final String rol;
+  final String state;
+  final String id;
 
   const _InfoPerson({
     Key? key,
     required this.name,
     required this.email,
     required this.rol,
+    required this.state,
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -74,6 +93,8 @@ class _InfoPerson extends StatelessWidget {
                 _TitleAndInfo(title: 'Correo', value: email),
                 const SizedBox(height: 18),
                 _TitleAndInfo(title: 'Rol', value: rol),
+                const SizedBox(height: 18),
+                _TitleAndInfo(title: 'Estado', value: state),
                 const SizedBox(height: 18),
               ],
             )),

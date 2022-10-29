@@ -51,10 +51,17 @@ class AuthService with ChangeNotifier {
     return token;
   }
 
+  static Future<String?> getRole() async {
+    const storage = FlutterSecureStorage();
+    final token = await storage.read(key: 'role');
+    return token;
+  }
+
   static Future<void> deleteToken() async {
     const storage = FlutterSecureStorage();
     await storage.delete(key: 'token');
     await storage.delete(key: 'idUser');
+    await storage.delete(key: 'role');
   }
 
   Future<bool> login(String email, String password) async {
@@ -71,7 +78,7 @@ class AuthService with ChangeNotifier {
       final loginResponse = loginResponseFromJson(resp.body);
       user = loginResponse.id;
 
-      await _saveToken(loginResponse.token!, loginResponse.id);
+      await _saveToken(loginResponse.token, loginResponse.id);
       return true;
     } else {
       return false;

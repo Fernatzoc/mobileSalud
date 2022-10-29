@@ -21,8 +21,8 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: Table(
-        children: const [
-          TableRow(
+        children: [
+          const TableRow(
             children: [
               _SingleCard(icon: Icons.people, text: 'Usuarios', page: 'users'),
               _SingleCard(
@@ -33,13 +33,14 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           TableRow(children: [
-            _SingleCard(
+            const _SingleCard(
                 icon: Icons.calculate, text: 'Calculadora', page: 'calculator'),
-            _SingleCard(
-              icon: Icons.print,
-              text: 'Reportes',
-              page: 'report',
-            )
+            Container(),
+            // _SingleCard(
+            //   icon: Icons.print,
+            //   text: 'Reportes',
+            //   page: 'report',
+            // )
           ])
         ],
       ),

@@ -6,6 +6,7 @@ class User {
       this.name,
       this.email,
       this.rol,
+      this.estado,
       this.emailVerifiedAt,
       this.createdAt,
       this.updatedAt,
@@ -15,6 +16,7 @@ class User {
   String? name;
   String? email;
   String? rol;
+  String? estado;
   String? emailVerifiedAt;
   String? createdAt;
   String? updatedAt;
@@ -25,6 +27,7 @@ class User {
         name: json["name"],
         email: json["email"],
         rol: json["rol"],
+        estado: json["estado"],
         emailVerifiedAt: json["email_verified_at"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
@@ -37,6 +40,7 @@ class User {
         "name": name,
         "email": email,
         "rol": rol,
+        "estado": estado,
         "email_verified_at": emailVerifiedAt,
         "created_at": createdAt,
         "updated_at": updatedAt,

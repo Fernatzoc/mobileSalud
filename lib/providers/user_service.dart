@@ -21,6 +21,7 @@ class UserService with ChangeNotifier {
   String email = '';
   String password = '';
   String role = '';
+  String state = '';
   bool _isObscure = true;
 
   bool isValidForm() {
@@ -68,6 +69,43 @@ class UserService with ChangeNotifier {
       final userCreatedResponse = newUsersResponseFromJson(resp.body);
       users.insert(0, userCreatedResponse.data);
       print(userCreatedResponse);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> updateUser(String name, String email, String role, String state,
+      String password, String idUser) async {
+    creatingUser = true;
+
+    final token = await AuthService.getToken();
+
+    final data = {
+      'name': name,
+      'email': email,
+      'role': role,
+      'estado': state,
+      'password': password,
+    };
+
+    final resp = await http.put(
+        Uri.parse('${Environment.apiUrl}/users/$idUser'),
+        body: jsonEncode(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        });
+
+    creatingUser = false;
+
+    if (resp.statusCode == 200) {
+      final pregnantCreatedResponse = newUsersResponseFromJson(resp.body);
+      var item = users.firstWhere((i) => i.id.toString() == idUser);
+      var index = users.indexOf(item);
+      users[index] = pregnantCreatedResponse.data;
+
+      print(pregnantCreatedResponse);
       return true;
     } else {
       return false;
