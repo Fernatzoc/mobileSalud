@@ -3,7 +3,6 @@
 //     final loginResponse = loginResponseFromJson(jsonString);
 
 import 'dart:convert';
-import './user.dart';
 
 LoginResponse loginResponseFromJson(String str) =>
     LoginResponse.fromJson(json.decode(str));
@@ -11,25 +10,17 @@ LoginResponse loginResponseFromJson(String str) =>
 String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
 
 class LoginResponse {
-  LoginResponse({
-    this.status,
-    this.user,
-    this.token,
-  });
+  LoginResponse({required this.status, required this.token, required this.id});
 
-  String? status;
-  User? user;
-  String? token;
+  String status;
+  String token;
+  String id;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
         status: json["status"],
-        user: User.fromJson(json["user"]),
         token: json["token"],
+        id: json["id"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "status": status,
-        "user": user?.toJson(),
-        "token": token,
-      };
+  Map<String, dynamic> toJson() => {"status": status, "token": token, "id": id};
 }

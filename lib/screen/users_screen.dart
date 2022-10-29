@@ -20,20 +20,24 @@ class UsersScreen extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               itemCount: users.length,
               itemBuilder: (context, index) {
-                return Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.all(5),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: const Color(0xff6A7AFA),
-                      child: Text(
-                        users[index].name![0],
-                        style: const TextStyle(color: Colors.white),
+                return InkWell(
+                  onTap: () => Navigator.pushNamed(context, 'singleUser',
+                      arguments: users[index]),
+                  child: Card(
+                    elevation: 2,
+                    margin: const EdgeInsets.all(5),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: const Color(0xff6A7AFA),
+                        child: Text(
+                          users[index].name![0],
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
+                      title: Text(users[index].name!),
+                      subtitle: Text(users[index].rol!),
+                      trailing: const Icon(Icons.arrow_forward_ios),
                     ),
-                    title: Text(users[index].name!),
-                    subtitle: Text(users[index].rol!),
-                    // trailing: const Icon(Icons.arrow_forward_ios),
                   ),
                 );
               },

@@ -26,7 +26,7 @@ class AuthService with ChangeNotifier {
 
   // Auth Service
 
-  late User user;
+  late String user;
   bool _authenticating = false;
 
   // Create storage
@@ -69,10 +69,9 @@ class AuthService with ChangeNotifier {
 
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
-      user = loginResponse.user!;
+      user = loginResponse.id;
 
-      await _saveToken(
-          loginResponse.token!, loginResponse.user!.id!.toString());
+      await _saveToken(loginResponse.token!, loginResponse.id);
       return true;
     } else {
       return false;
@@ -91,9 +90,8 @@ class AuthService with ChangeNotifier {
 
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
-      user = loginResponse.user!;
-      await _saveToken(
-          loginResponse.token!, loginResponse.user!.id!.toString());
+      user = loginResponse.id;
+      await _saveToken(loginResponse.token, loginResponse.id);
       return true;
     } else {
       logout();

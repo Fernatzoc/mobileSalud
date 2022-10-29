@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:mobile_salud/models/new_user_response.dart';
 
 import '../global/environment.dart';
 import '../models/index.dart';
@@ -64,8 +65,8 @@ class UserService with ChangeNotifier {
     creatingUser = false;
 
     if (resp.statusCode == 201) {
-      final userCreatedResponse = loginResponseFromJson(resp.body);
-      users.add(userCreatedResponse.user!);
+      final userCreatedResponse = newUsersResponseFromJson(resp.body);
+      users.insert(0, userCreatedResponse.data);
       print(userCreatedResponse);
       return true;
     } else {
@@ -102,7 +103,7 @@ class UserService with ChangeNotifier {
         });
 
     final usersResponse = usersResponseFromJson(resp.body);
-    users.addAll(usersResponse.allUsers!.data);
+    users.addAll(usersResponse.data);
     print('llamada');
     notifyListeners();
   }
