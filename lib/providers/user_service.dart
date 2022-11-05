@@ -67,6 +67,7 @@ class UserService with ChangeNotifier {
 
     if (resp.statusCode == 201) {
       final userCreatedResponse = newUsersResponseFromJson(resp.body);
+      userCreatedResponse.data.estado = '1';
       users.insert(0, userCreatedResponse.data);
       print(userCreatedResponse);
       return true;

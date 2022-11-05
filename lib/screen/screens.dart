@@ -10,3 +10,4 @@ export './users_screen.dart';
 export './single_user_screen.dart';
 export './calculator_screen.dart';
 export './report_screen.dart';
+export './forgot_password_screen.dart';

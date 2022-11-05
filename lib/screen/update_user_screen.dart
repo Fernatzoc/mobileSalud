@@ -59,7 +59,7 @@ class _FormState extends State<_Form> {
   void initState() {
     nameController.text = widget.user.name!;
     emailController.text = widget.user.email!;
-    estadoController.text = widget.user.estado!;
+    estadoController.text = widget.user.estado ?? '1';
     roleController.text = widget.user.rol!;
     passwordController.text = '';
     super.initState();
@@ -120,14 +120,14 @@ class _FormState extends State<_Form> {
                         blurRadius: 5)
                   ]),
               child: DropdownButtonFormField(
-                value: widget.user.estado,
+                value: widget.user.estado ?? '1',
                 items: const [
                   DropdownMenuItem(
-                    value: 'Activo',
+                    value: '1',
                     child: Text('Activo'),
                   ),
                   DropdownMenuItem(
-                    value: 'Inactivo',
+                    value: '0',
                     child: Text('Inactivo'),
                   )
                 ],

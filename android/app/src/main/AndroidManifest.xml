@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mobile_salud">
+    package="dev.fsalud.mobile">
    <application
         android:label="mobile_salud"
         android:name="${applicationName}"
@@ -33,4 +33,5 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

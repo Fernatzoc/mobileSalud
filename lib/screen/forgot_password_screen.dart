@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../helpers/show_alert.dart';
-import '../providers/auth_service.dart';
-import '../widgets/index.dart';
 import '../global/validations.dart';
+import '../helpers/show_alert.dart';
+import '../providers/index.dart';
+import '../widgets/custom_button.dart';
+import '../widgets/custom_input.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class ForgotPasswordScreen extends StatelessWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class _Logo extends StatelessWidget {
             Image(image: AssetImage('assets/salud.png')),
             SizedBox(height: 20),
             Text(
-              'Inicia sesión',
+              'Recuperar Contraseña',
               style: TextStyle(fontSize: 30, fontFamily: 'NotoSans'),
             )
           ],
@@ -68,7 +69,7 @@ class __FormState extends State<_Form> {
       // margin: const EdgeInsets.only(top: 40),
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Form(
-        key: authService.formKey,
+        key: authService.formKeyForgotPasword,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           children: [
@@ -87,47 +88,28 @@ class __FormState extends State<_Form> {
                     : 'El correo no es valido';
               },
             ),
-            CustomInput(
-              icon: Icons.lock_outline,
-              placeHolder: 'Contraseña',
-              keyboadType: TextInputType.emailAddress,
-              isPassword: authService.isObscure,
-              labelText: const Text('Contraseña'),
-              suffixIcon: IconButton(
-                  icon: Icon(authService.isObscure
-                      ? Icons.visibility
-                      : Icons.visibility_off),
-                  onPressed: () {
-                    authService.isObscure = !authService.isObscure;
-                  }),
-              onChanged: (value) => authService.password = value!,
-              validator: (value) {
-                return (value?.trim().isNotEmpty == true)
-                    ? null
-                    : 'La contraseña es requedida';
-              },
-            ),
             CustomButton(
                 color: Theme.of(context).primaryColor,
-                text: 'Ingresar',
+                text: 'Enviar',
                 onPressed: authService.authenticating
                     ? null
                     : () async {
                         FocusScope.of(context).unfocus();
 
-                        if (!authService.isValidForm()) return;
+                        if (!authService.isValidFormForgot()) return;
 
-                        final loginStatus = await authService.login(
-                            authService.email.trim(),
-                            authService.password.trim());
+                        final loginStatus = await authService.forgotPassword(
+                          authService.email.trim(),
+                        );
 
                         if (loginStatus) {
                           if (!mounted) return;
-                          Navigator.pushReplacementNamed(context, 'home');
+                          showAlert(context, 'Mensaje',
+                              'Revise su bandeja de entrada');
                         } else {
                           if (!mounted) return;
                           showAlert(
-                              context, 'Error', 'Compruebe sus credenciales');
+                              context, 'Error', 'Error usuario no encontrado');
                         }
                       })
           ],
@@ -145,9 +127,8 @@ class _Labels extends StatelessWidget {
     return Column(
       children: [
         InkWell(
-          onTap: () =>
-              Navigator.pushReplacementNamed(context, 'forgotPassword'),
-          child: const Text('¿Ha olvidado su contraseña?',
+          onTap: () => Navigator.pushReplacementNamed(context, 'login'),
+          child: const Text('Iniciar Secion',
               style: TextStyle(color: Color(0xff6A7AFA))),
         ),
         const SizedBox(height: 40),

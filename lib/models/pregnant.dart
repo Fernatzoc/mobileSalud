@@ -12,6 +12,7 @@ class Pregnant {
     required this.cmb,
     required this.idUser,
     this.userName,
+    this.estado,
     required this.updatedAt,
     required this.createdAt,
     required this.id,
@@ -29,6 +30,7 @@ class Pregnant {
   String cmb;
   String? userName;
   String idUser;
+  int? estado;
   String updatedAt;
   String createdAt;
   int id;
@@ -46,6 +48,7 @@ class Pregnant {
         cmb: json["cmb"],
         idUser: json["id_user"],
         userName: json["user_name"],
+        estado: json["estado"],
         updatedAt: json["updated_at"],
         createdAt: json["created_at"],
         id: json["id"],
@@ -64,6 +67,7 @@ class Pregnant {
         "cmb": cmb,
         "id_user": idUser,
         "user_name": userName,
+        "estado": estado,
         "updated_at": updatedAt,
         "created_at": createdAt,
         "id": id,

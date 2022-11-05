@@ -15,5 +15,6 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'updateRegister': (_) => const UpdateRegisterScreen(),
   'singlePregnant': (_) => const SinglePregnantScreen(),
   'calculator': (_) => const CalculatorScreen(),
-  'report': (_) => const ReportScreen()
+  'report': (_) => const ReportScreen(),
+  'forgotPassword': (_) => const ForgotPasswordScreen()
 };

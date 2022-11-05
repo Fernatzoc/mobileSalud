@@ -9,6 +9,7 @@ import '../models/index.dart';
 class AuthService with ChangeNotifier {
   //Validation
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKeyForgotPasword = GlobalKey<FormState>();
 
   String email = '';
   String password = '';
@@ -16,6 +17,10 @@ class AuthService with ChangeNotifier {
 
   bool isValidForm() {
     return formKey.currentState?.validate() ?? false;
+  }
+
+  bool isValidFormForgot() {
+    return formKeyForgotPasword.currentState?.validate() ?? false;
   }
 
   bool get isObscure => _isObscure;
@@ -114,5 +119,26 @@ class AuthService with ChangeNotifier {
   Future logout() async {
     await _storage.delete(key: 'idUser');
     await _storage.delete(key: 'token');
+  }
+
+  Future<bool> forgotPassword(String email) async {
+    authenticating = true;
+
+    final data = {'email': email};
+
+    final resp = await http.post(
+        Uri.parse('${Environment.apiUrl}/password/email'),
+        body: jsonEncode(data),
+        headers: {'Content-Type': 'application/json'});
+
+    authenticating = false;
+
+    if (resp.statusCode == 200) {
+      print(resp.body);
+
+      return true;
+    } else {
+      return false;
+    }
   }
 }

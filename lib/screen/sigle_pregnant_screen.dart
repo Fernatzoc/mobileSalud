@@ -80,7 +80,7 @@ class _SinglePregnantScreenState extends State<SinglePregnantScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registro'),
+        title: Text(pregnant.estado.toString()),
         actions: [
           Padding(
               padding: const EdgeInsets.only(right: 20.0),
